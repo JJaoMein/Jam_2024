@@ -33,15 +33,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.LeftControl)&&withMe==true)
-        {
-            Throw();
-        }
+        //if(Input.GetKeyDown(KeyCode.LeftControl)&&withMe==true)
+        //{
+        //    Throw();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            PickUp();
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    PickUp();
+        //}
     }
 
     public void Throw()
@@ -53,6 +53,9 @@ public class PlayerController : MonoBehaviour
 
     public void PickUp()
     {
+        if (withMe == true)
+            return;
+
         myWeapon.PickUp();
         myWeapon.transform.SetParent(handPlace);
         myWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
