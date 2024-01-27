@@ -24,10 +24,32 @@ public class InputTesting : MonoBehaviour
 
     public void BasicAttack(InputAction.CallbackContext inputContext)
     {
+        if (inputContext.started)
+        {
+            
+            Debug.Log("AttackingBasically" + inputContext.duration);
+            sphereRigidbody.AddForce(Vector3.forward * 0.3f, ForceMode.Impulse);
+            //attackSphere.enabled = true;
+        }
+        if (inputContext.canceled)
+        {
+            Debug.Log("AttackingBasically" + inputContext.duration);
+            sphereRigidbody.AddForce(Vector3.forward * 5f, ForceMode.Impulse);
+            //attackSphere.enabled = true;
+        }
+    }
+    public void HoldAttack(InputAction.CallbackContext inputContext)
+    {
         if (inputContext.performed)
         {
-            Debug.Log("AttackingBasically" + inputContext.phase);
+            Debug.Log("Hol' up!" + inputContext.phase);
             sphereRigidbody.AddForce(Vector3.forward * 0.3f, ForceMode.Impulse);
+            //attackSphere.enabled = true;
+        }
+        if (inputContext.canceled)
+        {
+            Debug.Log("Dont hol' up" + inputContext.phase);
+            sphereRigidbody.AddForce(Vector3.forward * 5f, ForceMode.Impulse);
             //attackSphere.enabled = true;
         }
     }
@@ -57,7 +79,7 @@ public class InputTesting : MonoBehaviour
 
     public void Move(InputAction.CallbackContext inputContext)
     {
-        if (inputContext.performed)
+        if (inputContext.started)
         {
             Vector2 movementVector = inputContext.ReadValue<Vector2>();
             sphereRigidbody.AddForce(new Vector3(movementVector.x, 0, movementVector.y) * movementSpeed, ForceMode.Force);
