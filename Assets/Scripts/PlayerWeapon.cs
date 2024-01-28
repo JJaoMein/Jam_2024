@@ -20,12 +20,13 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Update()
     {
-        if(Vector3.SqrMagnitude(myRB.velocity)<=0.1f&&henRunning==false&&transform.parent==null)
+        if(Vector3.SqrMagnitude(myRB.velocity)<=0.2f&&henRunning==false&&transform.parent==null)
         {
             henRunning = true;
             henBehaviour.StartRun();
-            myRB.useGravity = false;
-            myRB.isKinematic = true;
+            //myRB.useGravity = false;
+            //myRB.isKinematic = true;
+            myRB.freezeRotation = true;
             transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
@@ -45,5 +46,7 @@ public class PlayerWeapon : MonoBehaviour
         myRB.useGravity = false;
         myRB.isKinematic = true;
         henBehaviour.PickUp();
+        myRB.freezeRotation = false;
+
     }
 }

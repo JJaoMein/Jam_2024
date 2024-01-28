@@ -31,37 +31,39 @@ public class HenBehaviour : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 1, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1, Color.green);
-            Debug.Log("Did Hit");
+            //Debug.Log("Did Hit");
         }
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1, Color.red);
-            Debug.Log("Did not Hit");
+            //Debug.Log("Did not Hit");
         }
 
         if(isRun)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z+ henSpeed * Time.deltaTime);
-            
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + henSpeed * Time.deltaTime);
         }
     }
 
     public void Throw()
     {
-        henAnim.SetTrigger("Throw");
+        //henAnim.SetTrigger("Throw");
+        henAnim.SetBool("IsFlying", true);
     }
 
     public void StartRun()
     {
         isRun = true;
         henAnim.SetBool("IsRun", true);
+        henAnim.SetBool("IsFlying", false);
     }
 
     public void PickUp()
     {
         isRun = false;
         henAnim.SetBool("IsRun", false);
-        henAnim.SetTrigger("Pick");
+        henAnim.SetBool("IsFlying", false);
+
 
     }
 }

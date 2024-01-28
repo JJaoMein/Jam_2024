@@ -83,7 +83,7 @@
                     "name": "",
                     "id": "52e9b384-f545-487a-85f6-97a36b343644",
                     "path": "<Gamepad>/buttonWest",
-                    "interactions": "Tap(duration=0.35)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "BasicAttack",
