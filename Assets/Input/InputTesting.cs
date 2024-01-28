@@ -24,19 +24,19 @@ public class InputTesting : MonoBehaviour
 
     public void BasicAttack(InputAction.CallbackContext inputContext)
     {
-        if (inputContext.started)
+        if (inputContext.performed)
         {
             
             Debug.Log("AttackingBasically" + inputContext.duration);
             sphereRigidbody.AddForce(Vector3.forward * 0.3f, ForceMode.Impulse);
             //attackSphere.enabled = true;
         }
-        if (inputContext.canceled)
-        {
-            Debug.Log("AttackingBasically" + inputContext.duration);
-            sphereRigidbody.AddForce(Vector3.forward * 5f, ForceMode.Impulse);
-            //attackSphere.enabled = true;
-        }
+        //if (inputContext.canceled)
+        //{
+        //    Debug.Log("AttackingBasically" + inputContext.duration);
+        //    sphereRigidbody.AddForce(Vector3.forward * 5f, ForceMode.Impulse);
+        //    //attackSphere.enabled = true;
+        //}
     }
     public void HoldAttack(InputAction.CallbackContext inputContext)
     {
