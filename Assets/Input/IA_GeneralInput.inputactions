@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CanAim",
+                    "type": "Button",
+                    "id": "cb73d0e4-f069-42ac-a6f2-d93be49ff408",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -94,7 +103,7 @@
                     "name": "",
                     "id": "c2b97435-e408-464c-9e9e-b0e33d22c391",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Tap(duration=0.35)",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "BasicAttack",
@@ -314,7 +323,7 @@
                     "name": "",
                     "id": "bed8518f-907e-49c6-ad5f-5b744e491f9e",
                     "path": "<Gamepad>/buttonWest",
-                    "interactions": "SlowTap",
+                    "interactions": "SlowTap(duration=0.4)",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "HoldAttack",
@@ -351,6 +360,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "JoinSession",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8116f4f-be24-48a5-a617-a2710dd21ab7",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "Hold(duration=0.4)",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CanAim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a9e8669-5785-4157-acf8-742901a35279",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Hold(duration=0.4)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "CanAim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
