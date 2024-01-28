@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private SpriteRenderer arrowMaterial;
 
+    public Color Mycolor;
+
     private void Awake()
     {
         MyPoints = 0;
@@ -67,15 +69,18 @@ public class PlayerController : MonoBehaviour
         myWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
         myWeapon.transform.localPosition = Vector3.zero;
 
-        Color color = GameManager.GameManagerInstance.GetColor();
-        containerPointsimage.color = color;
-        arrowMaterial.color = color;
-        GameManager.GameManagerInstance.SetNewPlayer(myPointsContainer);
+        Mycolor = GameManager.GameManagerInstance.GetColor();
+        containerPointsimage.color = Mycolor;
+        arrowMaterial.color = Mycolor;
+        GameManager.GameManagerInstance.SetNewPlayer(myPointsContainer,gameObject);
 
     }
 
     private void Update()
     {
+        if (GameManager.GameManagerInstance.IsGameOver)
+            return;
+
         if(dashTime>0)
         {
             dashTime -= Time.deltaTime;
@@ -138,6 +143,8 @@ public class PlayerController : MonoBehaviour
 
     public void Throw(InputAction.CallbackContext inputContext)
     {
+        if (GameManager.GameManagerInstance.IsGameOver)
+            return;
 
         if (inputContext.performed&&myWeapon!=null)
         {
@@ -155,6 +162,9 @@ public class PlayerController : MonoBehaviour
 
     public void Dash(InputAction.CallbackContext inputContext)
     {
+        if (GameManager.GameManagerInstance.IsGameOver)
+            return;
+
         if (inputContext.performed&& dashTime<=0)
         {
             dashTime = dashCooldown;
@@ -169,6 +179,9 @@ public class PlayerController : MonoBehaviour
 
     public void PickUp()
     {
+        if (GameManager.GameManagerInstance.IsGameOver)
+            return;
+
         if (myWeapon != null)
         {
             myWeapon.PickUp();
@@ -188,6 +201,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (GameManager.GameManagerInstance.IsGameOver)
+            return;
+
         PlayerWeapon plWaepon = other.GetComponent<PlayerWeapon>();
         if (plWaepon != myWeapon && plWaepon.CanHurt())
         {

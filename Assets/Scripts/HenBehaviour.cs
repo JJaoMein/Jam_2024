@@ -18,7 +18,11 @@ public class HenBehaviour : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(isRun)
+
+        if (GameManager.GameManagerInstance.IsGameOver)
+            return;
+
+        if (isRun)
         {
             int layerMask = 1 << 8;
             layerMask = ~layerMask;

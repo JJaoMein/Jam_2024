@@ -43,7 +43,10 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Update()
     {
-        if(Vector3.SqrMagnitude(myRB.velocity)<=0.5f&&HenRunning==false&&transform.parent==null)
+        if (GameManager.GameManagerInstance.IsGameOver || GameManager.GameManagerInstance.IsPause)
+            return;
+
+        if (Vector3.SqrMagnitude(myRB.velocity)<=0.5f&&HenRunning==false&&transform.parent==null)
         {
             HenRunning = true;
             henBehaviour.StartRun();
@@ -59,6 +62,10 @@ public class PlayerWeapon : MonoBehaviour
 
     public void Throw(float force,Vector3 direction)
     {
+
+        if (GameManager.GameManagerInstance.IsGameOver || GameManager.GameManagerInstance.IsPause)
+            return;
+
         henBehaviour.Throw();
         myRB.useGravity = true;
         myRB.isKinematic = false;
@@ -74,6 +81,10 @@ public class PlayerWeapon : MonoBehaviour
 
     public void PickUp()
     {
+
+        if (GameManager.GameManagerInstance.IsGameOver || GameManager.GameManagerInstance.IsPause)
+            return;
+
         HenRunning = false;
         myRB.useGravity = false;
         myRB.isKinematic = true;

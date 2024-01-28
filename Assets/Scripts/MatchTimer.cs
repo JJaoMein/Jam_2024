@@ -17,6 +17,7 @@ public class MathTimer : MonoBehaviour
     private float countdownMinutes;
     private float countdownSeconds;
 
+    [SerializeField]
     private TMP_Text countdownText;
 
     private bool gameFinished;
@@ -43,7 +44,7 @@ public class MathTimer : MonoBehaviour
                 countdownSeconds = Mathf.FloorToInt(currentMatchTime % 60);
                 currentMatchTime -= 1 * Time.deltaTime;
                 //Debug.Log(currentMatchTime);
-                //countdownText.text = string.Format("{0:00}:{1:00}", countdownMinutes, countdownSeconds);
+                countdownText.text = string.Format("{0:00}:{1:00}", countdownMinutes, countdownSeconds);
             }
             else
             {
@@ -51,7 +52,6 @@ public class MathTimer : MonoBehaviour
                 //Winner Winner chicken dinner
                 gameFinished = true;
                 GameOver?.Invoke();
-                Time.timeScale = 0;
 
             }
         }
