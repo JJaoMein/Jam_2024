@@ -10,7 +10,7 @@ public class PlayerWeapon : MonoBehaviour
     private HenBehaviour henBehaviour;
     public bool HenRunning;
 
-    private PlayerController myOwner;
+    public PlayerController MyOwner;
 
     [SerializeField]
     private ParticleSystem featherTrail;
@@ -21,7 +21,7 @@ public class PlayerWeapon : MonoBehaviour
     private void Awake()
     {
         henBehaviour = GetComponent<HenBehaviour>();
-        myOwner = GetComponentInParent<PlayerController>();
+        MyOwner = GetComponentInParent<PlayerController>();
         myRB = GetComponent<Rigidbody>();
         myRB.useGravity = false;
         myRB.isKinematic = true;
@@ -84,17 +84,17 @@ public class PlayerWeapon : MonoBehaviour
 
     public bool IsSingle()
     {
-        return myOwner == null;
+        return MyOwner == null;
     }
 
     public void SetOwner(PlayerController owner)
     {
-        myOwner = owner;
+        MyOwner = owner;
     }
 
     public void RemoveOwenr()
     {
-        myOwner.LetHen();
-        myOwner = null;
+        MyOwner.LetHen();
+        MyOwner = null;
     }
 }

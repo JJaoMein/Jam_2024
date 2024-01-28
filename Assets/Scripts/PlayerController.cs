@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -39,8 +40,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float dashCooldown=2;
 
+    public int MyPoints;
+
+    [SerializeField]
+    private TMP_Text pointText;
+
+    [SerializeField]
+    private GameObject myPointsContainer;
+
     private void Awake()
     {
+        MyPoints = 0;
         dashTime = 0;
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
@@ -49,6 +59,9 @@ public class PlayerController : MonoBehaviour
         myWeapon.transform.SetParent(handPlace);
         myWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
         myWeapon.transform.localPosition = Vector3.zero;
+
+        GameManager.GameManagerInstance.SetNewPlayer(myPointsContainer);
+
     }
 
     private void Update()
@@ -157,12 +170,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void UpdatePoints()
+    {
+        MyPoints += 1;
+        pointText.text = MyPoints.ToString();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         PlayerWeapon plWaepon = other.GetComponent<PlayerWeapon>();
         if (plWaepon != myWeapon && plWaepon.CanHurt())
         {
-            Debug.Log("aaaaaa!!!");
+            //Debug.Log("aaaaaa!!!");
+            plWaepon.MyOwner.UpdatePoints();
             plWaepon.HitSome();
         }
 
