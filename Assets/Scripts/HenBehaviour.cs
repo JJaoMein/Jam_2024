@@ -4,7 +4,19 @@ using UnityEngine;
 
 public class HenBehaviour : MonoBehaviour
 {
+    private bool isHit;
 
+    private bool isRun;
+    [SerializeField]
+    private float henSpeed=10f;
+
+    [SerializeField]
+    private Animator henAnim;
+
+    private void Awake()
+    {
+        isRun = false;
+    }
     void FixedUpdate()
     {
         // Bit shift the index of the layer (8) to get a bit mask
@@ -16,15 +28,40 @@ public class HenBehaviour : MonoBehaviour
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 1, layerMask))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1, Color.green);
             Debug.Log("Did Hit");
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1, Color.red);
             Debug.Log("Did not Hit");
         }
+
+        if(isRun)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z+ henSpeed * Time.deltaTime);
+            
+        }
+    }
+
+    public void Throw()
+    {
+        henAnim.SetTrigger("Throw");
+    }
+
+    public void StartRun()
+    {
+        isRun = true;
+        henAnim.SetBool("IsRun", true);
+    }
+
+    public void PickUp()
+    {
+        isRun = false;
+        henAnim.SetBool("IsRun", false);
+        henAnim.SetTrigger("Pick");
+
     }
 }

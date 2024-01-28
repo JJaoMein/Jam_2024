@@ -8,9 +8,11 @@ public class PlayerWeapon : MonoBehaviour
     private Rigidbody myRB;
 
     private HenBehaviour henBehaviour;
+    private bool henRunning;
 
     private void Awake()
     {
+        henBehaviour = GetComponent<HenBehaviour>();
         myRB = GetComponent<Rigidbody>();
         myRB.useGravity = false;
         myRB.isKinematic = true;
@@ -18,15 +20,20 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Update()
     {
-        if(Vector3.SqrMagnitude(myRB.velocity)<=0.1f)
+        if(Vector3.SqrMagnitude(myRB.velocity)<=0.1f&&henRunning==false&&transform.parent==null)
         {
-
+            henRunning = true;
+            henBehaviour.StartRun();
+            myRB.useGravity = false;
+            myRB.isKinematic = true;
+            transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
     }
 
     public void Throw(float force,Vector3 direction)
     {
+        henBehaviour.Throw();
         myRB.useGravity = true;
         myRB.isKinematic = false;
         myRB.velocity = direction * force * Time.deltaTime;
@@ -34,9 +41,9 @@ public class PlayerWeapon : MonoBehaviour
 
     public void PickUp()
     {
+        henRunning = false;
         myRB.useGravity = false;
         myRB.isKinematic = true;
-
-
+        henBehaviour.PickUp();
     }
 }

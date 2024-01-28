@@ -46,6 +46,9 @@ public class PlayerController : MonoBehaviour
 
     public void Throw()
     {
+        if (withMe == false)
+            return;
+
         myWeapon.transform.SetParent(null);
         myWeapon.Throw(throwForce, directionObject.forward);
         withMe = false;
@@ -53,9 +56,6 @@ public class PlayerController : MonoBehaviour
 
     public void PickUp()
     {
-        if (withMe == true)
-            return;
-
         myWeapon.PickUp();
         myWeapon.transform.SetParent(handPlace);
         myWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
