@@ -576,7 +576,7 @@ PrefabInstance:
     - target: {fileID: 9073943938553567089, guid: db3c97392a7b0dd43ab72b82e9142a1c,
         type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Keyboard
+      value: Gamepad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
