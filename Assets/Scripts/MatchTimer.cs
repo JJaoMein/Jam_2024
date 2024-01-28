@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 public class MathTimer : MonoBehaviour
 {
     [SerializeField]
     float matchDuration;
+
+    [SerializeField]
+    public UnityEvent GameOver;
 
     private float currentMatchTime;
     private float countdownMinutes;
@@ -15,9 +19,12 @@ public class MathTimer : MonoBehaviour
 
     private TMP_Text countdownText;
 
+    private bool gameFinished;
+
     void Awake()
     {
-        countdownText = GetComponent<TMP_Text>();
+        gameFinished = false;
+        //countdownText = GetComponent<TMP_Text>();
         currentMatchTime = matchDuration * 60;
     }
 
@@ -28,18 +35,25 @@ public class MathTimer : MonoBehaviour
 
     private void SetMatchTimer()
     {
-        if (currentMatchTime >= 0)
+        if (gameFinished == false)
         {
-            countdownMinutes = Mathf.FloorToInt(currentMatchTime / 60);
-            countdownSeconds = Mathf.FloorToInt(currentMatchTime % 60);
-            currentMatchTime -= 1 * Time.deltaTime;
-            //Debug.Log(currentMatchTime);
-            countdownText.text = string.Format("{0:00}:{1:00}", countdownMinutes, countdownSeconds);
-        }
-        else
-        {
-            currentMatchTime = 0;
-            //Winner Winner chicken dinner
+            if (currentMatchTime >= 0)
+            {
+                countdownMinutes = Mathf.FloorToInt(currentMatchTime / 60);
+                countdownSeconds = Mathf.FloorToInt(currentMatchTime % 60);
+                currentMatchTime -= 1 * Time.deltaTime;
+                //Debug.Log(currentMatchTime);
+                //countdownText.text = string.Format("{0:00}:{1:00}", countdownMinutes, countdownSeconds);
+            }
+            else
+            {
+                currentMatchTime = 0;
+                //Winner Winner chicken dinner
+                gameFinished = true;
+                GameOver?.Invoke();
+                Time.timeScale = 0;
+
+            }
         }
     }
 }

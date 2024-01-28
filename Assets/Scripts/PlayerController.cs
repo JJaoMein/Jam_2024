@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -48,6 +49,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject myPointsContainer;
 
+    [SerializeField]
+    private Image containerPointsimage;
+
+    [SerializeField]
+    private SpriteRenderer arrowMaterial;
+
     private void Awake()
     {
         MyPoints = 0;
@@ -60,6 +67,9 @@ public class PlayerController : MonoBehaviour
         myWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
         myWeapon.transform.localPosition = Vector3.zero;
 
+        Color color = GameManager.GameManagerInstance.GetColor();
+        containerPointsimage.color = color;
+        arrowMaterial.color = color;
         GameManager.GameManagerInstance.SetNewPlayer(myPointsContainer);
 
     }
