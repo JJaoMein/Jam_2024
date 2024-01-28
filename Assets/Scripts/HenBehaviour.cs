@@ -28,21 +28,37 @@ public class HenBehaviour : MonoBehaviour
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 1, layerMask))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 2, layerMask))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1, Color.green);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 2, Color.green);
+            transform.localEulerAngles += new Vector3(0, GetRandomRotation(), 0);
             //Debug.Log("Did Hit");
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1, Color.red);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 2, Color.red);
             //Debug.Log("Did not Hit");
         }
 
         if(isRun)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + henSpeed * Time.deltaTime);
+            Vector3 direction = transform.forward;
+            //transform.position = Vector3.forward * henSpeed * Time.deltaTime;
+            //transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + henSpeed * Time.deltaTime);
+
+            transform.localPosition += new Vector3(direction.x, 0, direction.z) * henSpeed * Time.deltaTime;
+
+            //if (direction != Vector2.zero)
+            //{
+            //    float angle = Mathf.Atan2(direction.y - Vector2.zero.y, direction.x - Vector2.zero.x);
+            //    transform.rotation = Quaternion.Euler(0f, 90 - angle * Mathf.Rad2Deg, 0f);
+            //}
         }
+    }
+
+    private float GetRandomRotation()
+    {
+        return Random.Range(-180, 180);
     }
 
     public void Throw()

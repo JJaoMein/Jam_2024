@@ -27,7 +27,7 @@ public class PlayerWeapon : MonoBehaviour
             //myRB.useGravity = false;
             //myRB.isKinematic = true;
             myRB.freezeRotation = true;
-            transform.localRotation = Quaternion.Euler(Vector3.zero);
+            transform.localEulerAngles = new Vector3(0, transform.localRotation.y, 0);
         }
 
     }
