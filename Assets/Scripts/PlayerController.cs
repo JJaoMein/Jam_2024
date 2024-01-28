@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform directionObject;
 
-    private float distansWeapon;
     private bool withMe;
 
     private PlayerInput playerInput;
@@ -30,14 +29,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Animator jokerAnim;
 
+    private Rigidbody myRB;
+    [SerializeField]
+    private float dashForce = 10;
+
     public float angle;
+
+    float dashTime;
+    [SerializeField]
+    private float dashCooldown=2;
+
     private void Awake()
     {
+        dashTime = 0;
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
-
+        myRB=GetComponent<Rigidbody>();
         withMe = true;
-        //r_myWeapon = Instantiate(r_weaponPrefab, r_handPlace.transform.position, Quaternion.identity).GetComponent<PlayerWeapon>();
         myWeapon.transform.SetParent(handPlace);
         myWeapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
         myWeapon.transform.localPosition = Vector3.zero;
@@ -45,16 +53,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //if(Input.GetKeyDown(KeyCode.LeftControl)&&withMe==true)
-        //{
-        //    Throw();
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    PickUp();
-        //}
-
+        if(dashTime>0)
+        {
+            dashTime -= Time.deltaTime;
+        }
         MovePlayer(); 
     }
 
@@ -66,7 +68,6 @@ public class PlayerController : MonoBehaviour
         {
             //move
             transform.position += new Vector3(direction.x, 0, direction.y) * speed * Time.deltaTime;
-
             //aim
             //directionObject.transform.localEulerAngles = direction.normalized;
 
@@ -95,19 +96,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Aim(InputAction.CallbackContext inputContext)
-    {
-
-    }
-
-    public void HoldAttack(InputAction.CallbackContext inputContext)
-    {
-        
-    }
-
     public void BasicAttack(InputAction.CallbackContext inputContext)
     {
-        if (inputContext.performed)
+        if (inputContext.performed && myWeapon != null)
         {
             Debug.Log("basic!!!");
             jokerAnim.SetTrigger("AttackTrigger");
@@ -125,11 +116,9 @@ public class PlayerController : MonoBehaviour
     public void Throw(InputAction.CallbackContext inputContext)
     {
 
-        
-
-        if (inputContext.performed)
+        if (inputContext.performed&&myWeapon!=null)
         {
-            Debug.Log("shoot!!!");
+            //Debug.Log("shoot!!!");
             jokerAnim.SetTrigger("AttackTrigger");
 
             if (withMe == false)
@@ -141,17 +130,47 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PickUp(InputAction.CallbackContext inputContext)
+    public void Dash(InputAction.CallbackContext inputContext)
     {
-        if (inputContext.started)
+        if (inputContext.performed&& dashTime<=0)
         {
-            Debug.Log(inputContext.phase);
+            dashTime = dashCooldown;
+            myRB.velocity = directionObject.forward * dashForce * Time.deltaTime;
+        }
+    }
+
+    public void LetHen()
+    {
+        myWeapon = null;
+    }
+
+    public void PickUp()
+    {
+        if (myWeapon != null)
+        {
             myWeapon.PickUp();
             myWeapon.transform.SetParent(handPlace);
             myWeapon.transform.localRotation = Quaternion.identity;
             myWeapon.transform.localEulerAngles = Vector3.zero;
             myWeapon.transform.localPosition = Vector3.zero;
             withMe = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PlayerWeapon plWaepon = other.GetComponent<PlayerWeapon>();
+        if (plWaepon != myWeapon && plWaepon.CanHurt())
+        {
+            Debug.Log("aaaaaa!!!");
+            plWaepon.HitSome();
+        }
+
+        if(plWaepon.IsSingle()&&myWeapon==null)
+        {
+            plWaepon.SetOwner(this);
+            myWeapon = plWaepon;
+            PickUp();
         }
     }
 
